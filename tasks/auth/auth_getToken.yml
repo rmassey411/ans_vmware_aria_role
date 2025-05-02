@@ -1,0 +1,17 @@
+---
+- name: Authenticate with VMware Aria Automation API
+  ansible.builtin.uri:
+    url: "https://{{ vra_hostname }}/csp/gateway/am/api/login"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body:
+      username: "{{ vra_username }}"
+      password: "{{ vra_userpass }}"
+    body_format: json
+    return_content: yes
+  register: auth_response
+
+- name: Extract access token
+  set_fact:
+    access_token: "{{ auth_response.json.cspAuthToken  }}"

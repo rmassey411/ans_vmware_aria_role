@@ -1,0 +1,5 @@
+---
+# defaults file for ans_vmware_aria_role
+vra_hostname: ""
+username: ""
+password: ""

@@ -1,0 +1,22 @@
+---
+- name: Create Deployment
+  ansible.builtin.uri:
+    url: "https://{{ vra_hostname }}/catalog/api/items/{{ catalog_item_id }}/request"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ access_token }}"
+      Content-Type: "application/json"
+    body:
+      projectId: "{{ project_id }}"
+      inputs:
+        vmname: "{{ vmname }}"
+        os-image: "{{ os_image }}"
+        hardware-config: "{{ hardware_config }}"
+        Address: "{{ address }}"
+    body_format: json
+    return_content: yes
+  register: deployment_response
+
+- name: Debug deployment response
+  ansible.builtin.debug:
+    msg: "{{ deployment_response.json }}"

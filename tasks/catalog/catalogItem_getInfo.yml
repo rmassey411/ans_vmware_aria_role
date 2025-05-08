@@ -1,0 +1,25 @@
+---
+- name: Get catalog items
+  ansible.builtin.uri:
+    url: "https://{{ vra_hostname }}/catalog/api/items"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ access_token }}"
+      Accept: "application/json"
+    return_content: yes
+  register: catalog_response
+
+- name: Extract catalog info
+  set_fact:
+    catalogItem_name: "{{ item.name  }}"
+    catalogItem_id: "{{ item.id  }}"
+    catalogItem_projectId: "{{ item.projectIds[0] }}"
+  when: item.name == catalog_item
+  with_items: "{{ catalog_response.json.content }}"
+
+# - name: Print catalog facts
+#   ansible.builtin.debug:
+#     msg: |-
+#       "Catalog Item's name is {{ catalogItem_name }}"
+#       "Catalog Item's id is {{ catalogItem_id }}"
+#       "Catalog Item's project id is {{ catalogItem_projectId }}"

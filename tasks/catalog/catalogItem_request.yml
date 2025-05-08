@@ -1,13 +1,13 @@
 ---
 - name: Create Deployment
   ansible.builtin.uri:
-    url: "https://{{ vra_hostname }}/catalog/api/items/{{ catalog_item_id }}/request"
+    url: "https://{{ vra_hostname }}/catalog/api/items/{{ catalogItem_id }}/request"
     method: POST
     headers:
       Authorization: "Bearer {{ access_token }}"
       Content-Type: "application/json"
     body:
-      projectId: "{{ project_id }}"
+      projectId: "{{ catalogItem_projectId}}"
       inputs:
         vmname: "{{ vmname }}"
         os-image: "{{ os_image }}"
